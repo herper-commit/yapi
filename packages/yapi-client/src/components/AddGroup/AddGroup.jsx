@@ -34,14 +34,14 @@ const schema = yup.object().shape({
   owner_uids: yup.array().min(1, "请选择分组所有者"),
 });
 //
-function AddGroupModal(props: any) {
+function AddGroupModal(props) {
   const navigate = useNavigate()
   const [open, setOpen] = useState(false);
   //
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [message, setMessage] = useState("");
   //
-  const dispatch: any = useDispatch();
+  const dispatch = useDispatch();
   //
   const formik = useFormik({
     initialValues: {
@@ -61,7 +61,7 @@ function AddGroupModal(props: any) {
         setOpenSnackbar(true);
         setOpen(false);
         navigate({ pathname: "/group/" + res.data.data._id });
-      } catch (e: any) {
+      } catch (e) {
         console.error(e);
         setMessage(e.data.errmsg);
         setOpenSnackbar(true);
@@ -69,7 +69,7 @@ function AddGroupModal(props: any) {
     },
   });
   //
-  const addGroup = async(values: any) => {
+  const addGroup = async(values) => {
     try {
       const res = await request.post("/group/add", { ...values });
       if (!res.data.errcode) {
@@ -95,7 +95,7 @@ function AddGroupModal(props: any) {
     setOpen(false);
   };
   //
-  const handleSnackbarClose = (event: React.SyntheticEvent | Event, reason: any) => {
+  const handleSnackbarClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
     }

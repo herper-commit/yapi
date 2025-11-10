@@ -7,7 +7,7 @@ import { SearchOutlined } from "@ant-design/icons";
 const ListItem = List.Item;
 const TypographyText = Typography.Text;
 //
-import AddGroup from "@/components/AddGroup/AddGroup.tsx";
+import AddGroup from "@/components/AddGroup/AddGroup.jsx";
 //
 import { useAppSelector } from "@/store/hooks";
 import { fetchNewsData } from "@/store/slices/news.js";
