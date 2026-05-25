@@ -40,6 +40,9 @@ node_modules/
 runtime/
 /prd/
 /dev/
+# Vite 构建产物
+static/prd/
+static/index.html
 .tags
 .tags1
 tsconfig.json

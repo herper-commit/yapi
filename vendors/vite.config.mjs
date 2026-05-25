@@ -39,8 +39,27 @@ function jsxInJsPlugin() {
   };
 }
 
+/** 合并 VITE_* 与遗留 REACT_APP_*，供 define 注入 */
+function buildClientEnv(mode, rawEnv) {
+  const baseUrl = rawEnv.VITE_BASE_URL || rawEnv.REACT_APP_BASE_URL || "";
+  const uploadUrl = rawEnv.VITE_UPLOAD_URL || rawEnv.REACT_APP_UPLOAD_URL || "";
+  const staticApi =
+    rawEnv.VITE_STATIC_BASE_API || rawEnv.REACT_APP_STATIC_BASE_API || "";
+  return {
+    NODE_ENV: mode,
+    ...rawEnv,
+    VITE_BASE_URL: baseUrl,
+    VITE_UPLOAD_URL: uploadUrl,
+    VITE_STATIC_BASE_API: staticApi,
+    REACT_APP_BASE_URL: rawEnv.REACT_APP_BASE_URL || baseUrl,
+    REACT_APP_UPLOAD_URL: rawEnv.REACT_APP_UPLOAD_URL || uploadUrl,
+    REACT_APP_STATIC_BASE_API: rawEnv.REACT_APP_STATIC_BASE_API || staticApi,
+  };
+}
+
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, __dirname, "");
+  const clientEnv = buildClientEnv(mode, env);
   const isProd = mode === "production";
 
   return {
@@ -73,10 +92,7 @@ export default defineConfig(({ mode }) => {
     ],
     define: {
       "process.env.NODE_ENV": JSON.stringify(mode),
-      "process.env": JSON.stringify({
-        NODE_ENV: mode,
-        ...env,
-      }),
+      "process.env": JSON.stringify(clientEnv),
     },
     resolve: {
       alias: {
@@ -111,7 +127,26 @@ export default defineConfig(({ mode }) => {
       assetsDir: "static",
       sourcemap: !isProd,
       chunkSizeWarningLimit: 2000,
-
+      rollupOptions: {
+        output: {
+          /**
+           * 按依赖拆包，减轻首屏单文件体积（react 与 antd 分离）
+           */
+          manualChunks(id) {
+            if (!id.includes("node_modules")) {
+              return undefined;
+            }
+            // 仅拆大 UI 库，避免 react↔vendor 循环引用
+            if (/[\\/]node_modules[\\/]antd[\\/]/.test(id)) {
+              return "antd";
+            }
+            if (/[\\/]node_modules[\\/]@mui[\\/]/.test(id)) {
+              return "mui";
+            }
+            return undefined;
+          },
+        },
+      },
     },
     css: {
       preprocessorOptions: {

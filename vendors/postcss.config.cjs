@@ -1,8 +1,9 @@
 /**
- * PostCSS：与 Vite 配合做 autoprefixer
+ * PostCSS：Tailwind + autoprefixer，供 Vite 处理 CSS
  */
 module.exports = {
   plugins: {
+    tailwindcss: {},
     autoprefixer: {},
   },
 };

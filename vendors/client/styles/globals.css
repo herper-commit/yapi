@@ -1,7 +1,10 @@
 /**
  * 全局样式（由原 custom-ui/reset + costom 迁移）
- * MUI ThemeProvider 负责组件主题；Tailwind 配置见 tailwind.config.js（构建链升级后启用）
+ * MUI ThemeProvider 负责组件主题；Tailwind 见 tailwind.config.js（preflight 关闭，避免与 antd 冲突）
  */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 html {
   font-size: 100px;

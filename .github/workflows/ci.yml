@@ -56,8 +56,6 @@ jobs:
         run: npm run build
         env:
           CI: "true"
-          DISABLE_ESLINT_PLUGIN: "true"
-          GENERATE_SOURCEMAP: "false"
 
       - name: Verify build output
         run: node scripts/verify-build.js

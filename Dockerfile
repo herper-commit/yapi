@@ -11,7 +11,7 @@ RUN npm ci --legacy-peer-deps
 
 COPY vendors/ ./
 
-ENV NODE_OPTIONS="--openssl-legacy-provider --max-old-space-size=4096"
+ENV NODE_OPTIONS="--max-old-space-size=4096"
 RUN npm run build && npm prune --production
 
 # 阶段二：生产运行

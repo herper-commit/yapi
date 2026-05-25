@@ -1,5 +1,5 @@
 /**
- * 开发模式：生成 dev.html，从 :3000 跳转到 Craco 开发服务器 :4000
+ * 开发模式：生成 dev.html，从 Hono :3000 跳转到 Vite 开发服务器 :4000
  */
 const fs = require("fs");
 const path = require("path");

@@ -8,7 +8,10 @@ import { getToken, removeToken } from "../utils/auth";
 const { ApiCode, isApiEnvelope, isSuccess } = require("common/apiResponse");
 
 const service = axios.create({
-  baseURL: process.env.NODE_ENV === "development" ? "/api" : process.env["VITE_REACT_APP_BASE_URL"] || "/api",
+  baseURL:
+    process.env.NODE_ENV === "development"
+      ? "/api"
+      : process.env.VITE_BASE_URL || process.env.REACT_APP_BASE_URL || "/api",
   timeout: 1000 * 60
 });
 
